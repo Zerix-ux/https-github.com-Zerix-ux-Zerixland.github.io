@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZerixIsland</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Styles CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        .header {
+            background-color: red;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+        .main-content {
+            padding: 20px;
+            width: calc(100% - 70px); /* Adjust width to accommodate taskbar */
+            margin-bottom: 100px; /* Add space at the bottom to ensure scroll */
+        }
+        .category {
+            background-color: #fff;
+            border: 1px solid black;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            height: 500px; /* Added height to ensure scrolling */
+        }
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 80px; /* Adjust to leave space for taskbar */
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .chat-container {
+            position: fixed;
+            bottom: 80px;
+            right: 80px; /* Adjust to leave space for taskbar */
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+        .chat-header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .chat-messages {
+            padding: 10px;
+            overflow-y: scroll;
+            height: 200px;
+        }
+        .chat-input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .send-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #f0f0f0;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #e0e0e0;
+        }
+        .taskbar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 50px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            z-index: 999;
+        }
+        .taskbar i {
+            margin: 20px 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Entête de la page -->
+    <div class="header">
+        <h1>ZerixIsland</h1>
+        <p>Bonjour sur ce site vous pouvez acheter de tout.</p>
+    </div>
+
+    <!-- Contenu principal de la page -->
+    <div class="main-content">
+        <div class="category" id="jeux">
+            <h2><i class="fas fa-gamepad"></i> Jeux</h2>
+            <a href="#" onclick="startSnakeGame()">
+                <img src="snake-icon.png" alt="Snake" width="100">
+            </a>
+        </div>
+
+        <div class="category" id="habille">
+            <h2><i class="fas fa-tshirt"></i> Habille</h2>
+            <p>Contenu de la catégorie Habille</p>
+        </div>
+
+        <div class="category" id="musique">
+            <h2><i class="fas fa-music"></i> Musique</h2>
+            <p>Contenu de la catégorie Musique</p>
+        </div>
+
+        <div class="category" id="astuce">
+            <h2><i class="fas fa-lightbulb"></i> Astuce</h2>
+            <p>Contenu de la catégorie Astuce</p>
+        </div>
+    </div>
+
+    <!-- Icône du chat -->
+    <div class="chat-icon" onclick="toggleChat()">
+        <i class="fas fa-comments" style="font-size: 50px;"></i>
+    </div>
+
+    <!-- Conteneur du chat -->
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">ChatBot</div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <input type="text" id="user-input" class="chat-input" placeholder="Écrivez un message...">
+        <button onclick="sendMessage()" class="send-btn">Envoyer</button>
+    </div>
+
+    <!-- Barre de tâches -->
+    <div class="taskbar">
+        <i class="fas fa-home" title="Accueil"></i>
+        <i class="fas fa-gamepad" title="Jeux"></i>
+        <i class="fas fa-tshirt" title="Habille"></i>
+        <i class="fas fa-music" title="Musique"></i>
+        <i class="fas fa-lightbulb" title="Astuce"></i>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        // Fonction pour afficher ou masquer le chat
+        function toggleChat() {
+            const chatContainer = document.getElementById('chat-container');
+            if (chatContainer.style.display === 'block') {
+                chatContainer.style.display = 'none';
+            } else {
+                chatContainer.style.display = 'block';
+            }
+        }
+
+        // Fonction pour démarrer le jeu Snake (exemple de redirection)
+        function startSnakeGame() {
+            // Redirection vers une page de jeu de serpent (exemple)
+            window.location.href = 'https://example.com/snake-game';
+        }
+
+        // Fonction pour envoyer un message
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value.trim();
+            if (userInput !== '') {
+                addUserMessage(userInput);
+                // Exemple de réponse du bot
+                addBotMessage('Réponse du Bot : Bonjour ! Comment puis-je vous aider ?');
+                document.getElementById('user-input').value = '';
+            }
+        }
+
+        // Fonction pour ajouter un message de l'utilisateur
+        function addUserMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Fonction pour ajouter un message du bot
+        function addBotMessage(message) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message';
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+</body>
+</html>
