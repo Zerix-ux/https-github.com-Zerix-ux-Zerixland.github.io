@@ -122,9 +122,7 @@
     <div class="main-content">
         <div class="category" id="jeux">
             <h2><i class="fas fa-gamepad"></i> Jeux</h2>
-            <a href="#" onclick="startSnakeGame()">
-                <img src="snake-icon.png" alt="Snake" width="100">
-            </a>
+            <p>Contenu de la catégorie Jeux</p>
         </div>
 
         <div class="category" id="habille">
@@ -141,6 +139,23 @@
             <h2><i class="fas fa-lightbulb"></i> Astuce</h2>
             <p>Contenu de la catégorie Astuce</p>
         </div>
+
+        <!-- Additional content to ensure scrolling -->
+        <div class="category">
+            <h2>Catégorie supplémentaire</h2>
+            <p>Contenu supplémentaire pour garantir que la page est longue et que le défilement vertical fonctionne.</p>
+        </div>
+        <div class="category">
+            <h2>Catégorie supplémentaire</h2>
+            <p>Contenu supplémentaire pour garantir que la page est longue et que le défilement vertical fonctionne.</p>
+        </div>
+        <div class="category">
+            <h2>Catégorie supplémentaire</h2>
+            <p>Contenu supplémentaire pour garantir que la page est longue et que le défilement vertical fonctionne.</p>
+        </div>
+
+        <!-- Bouton pour cloner le repo -->
+        <button onclick="cloneRepo()" class="send-btn">Cloner le Repo</button>
     </div>
 
     <!-- Icône du chat -->
@@ -177,12 +192,6 @@
             }
         }
 
-        // Fonction pour démarrer le jeu Snake (exemple de redirection)
-        function startSnakeGame() {
-            // Redirection vers une page de jeu de serpent (exemple)
-            window.location.href = 'https://example.com/snake-game';
-        }
-
         // Fonction pour envoyer un message
         function sendMessage() {
             const userInput = document.getElementById('user-input').value.trim();
@@ -213,6 +222,23 @@
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-    </script>
-</body>
-</html>
+
+        // Fonction pour cloner le repo
+        function cloneRepo() {
+            fetch('/clone-repo', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Le dépôt a été cloné avec succès !');
+                } else {
+                    alert('Erreur lors du clonage du dépôt.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors du clonage du dépôt.');
+            });
+        }
+   
